@@ -50,19 +50,46 @@ app.extSorter = () => {
     for (let index = 0; index < res.length; index++) {
         const element = res[index];
         const ext = element.split(".")[element.split(".").length - 1];
+
+        // Memindahkan file teks ke folder 'text'
         if (["txt", "pdf", "md"].includes(ext)) {
-            fs.mkdir(__dirname + '/text', () => {
+            fs.mkdir(__dirname + '/text', { recursive: true }, (err) => {
+                if (err) {
+                    console.error("Error creating text folder:", err);
+                    return;
+                }
                 console.log("success created new folder");
                 fs.rename(
                     __dirname + '/unorganize_folder/' + element,
                     __dirname + '/text/' + element,
                     (err) => {
-                        rl.close();
+                        if (err) {
+                            console.error("Error moving file to text folder:", err);
+                        }
                     }
                 );
             });
         }
 
+        // Memindahkan file PNG ke folder 'gambar'
+        if (ext === "png", "jpg") {
+            fs.mkdir(__dirname + '/gambar', { recursive: true }, (err) => {
+                if (err) {
+                    console.error("Error creating gambar folder:", err);
+                    return;
+                }
+                console.log("success created gambar folder");
+                fs.rename(
+                    __dirname + '/unorganize_folder/' + element,
+                    __dirname + '/gambar/' + element,
+                    (err) => {
+                        if (err) {
+                            console.error("Error moving file to gambar folder:", err);
+                        }
+                    }
+                );
+            });
+        }
     }
     return;
 };
