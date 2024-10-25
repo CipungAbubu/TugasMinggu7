@@ -8,9 +8,13 @@ switch (command) {
     case "make-folder":
         app.makeFolder()
         break; 
-        
+
     case "make-file":
         app.makeFile();
+        break;
+        
+    case "ext=sorter":
+        app.extSorter();
         break;
 
     default:
