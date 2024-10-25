@@ -94,4 +94,54 @@ app.extSorter = () => {
     return;
 };
 
+// script membuat readFolder
+app.readFolder = () => {
+    rl.question("Masukan Nama Folder: ", (folderName) => {
+        // Daftar file
+        const res = fs.readdirSync(folderName);
+        const output = [];
+
+        for (let index = 0; index < res.length; index++) {
+            const element = res[index];
+            try {
+                const filePath = __dirname + `/${folderName}/${element}`;
+                const stat = fs.statSync(filePath);
+
+                // Konversi ukuran file menjadi KB atau MB
+                let ukuranFile;
+                if (stat.size < 1024) {
+                    ukuranFile = stat.size + ' B';
+                } else if (stat.size < 1048576) {
+                    ukuranFile = (stat.size / 1024).toFixed(2) + ' KB';
+                } else {
+                    ukuranFile = (stat.size / 1048576).toFixed(2) + ' MB';
+                }
+
+                // Mapping jenis file berdasarkan ekstensi
+                const extensi = element.split('.').pop();
+                let jenisFile;
+                if (['jpg', 'jpeg', 'png', 'gif'].includes(extensi)) {
+                    jenisFile = 'gambar';
+                } else if (['txt', 'md', 'pdf'].includes(extensi)) {
+                    jenisFile = 'text';
+                } else {
+                    jenisFile = 'lainnya';
+                }
+
+                output.push({
+                    namaFile: element,
+                    extensi: extensi,
+                    jenisFile: jenisFile,
+                    tanggalDibuat: stat.birthtime.toISOString().split('T')[0], // Format tanggal jadi YYYY-MM-DD
+                    ukuranFile: ukuranFile
+                });
+            } catch (error) {
+                console.log("gagal baca file", folderName, element);
+            }
+        }
+        console.log(`berhasil menampilkan isi dari folder ${folderName} :`);
+        console.log(JSON.stringify(output, null, 4));
+    });
+};
+
 module.exports = app
