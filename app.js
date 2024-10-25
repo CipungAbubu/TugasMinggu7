@@ -144,5 +144,25 @@ app.readFolder = () => {
     });
 };
 
+// script membuat read file
+app.readFile = () => {
+    rl.question("Masukan Nama Folder: ", (folderName) => {
+        rl.question("Masukan Nama File: ", (fileName) => {
+            const filePath = `${__dirname}/${folderName}/${fileName}`;
+
+            // Membaca isi file
+            fs.readFile(filePath, 'utf8', (err, data) => {
+                if (err) {
+                    console.log(`Gagal membaca file ${fileName}:`, err.message);
+                    rl.close();
+                    return;
+                }
+                console.log(`isi dari file ${fileName}:\n\n${data}\n`);
+                rl.close();
+            });
+        });
+    });
+};
+
 
 module.exports = app
