@@ -43,5 +43,26 @@ app.makeFile = () => {
     });
 };
 
+// script membuat extSorter
+app.extSorter = (res) => {
+    for (let index = 0; index < res.length; index++) {
+        const element = res[index];
+        const ext = element.split(".")[element.split(".").length - 1];
 
+        if (["txt", "pdf", "md"].includes(ext)) {
+            fs.mkdir(__dirname + '/text', () => {
+                console.log("success created new folder");
+                fs.rename(
+                    __dirname + '/unorganize_folder/' + element,
+                    __dirname + '/text/' + element,
+                    (err) => {
+                        if (err) throw err; 
+                        console.log(`File ${element} berhasil dipindahkan ke folder 'text'`);
+                    }
+                );
+            });
+        }
+
+    }
+};
 module.exports = app
