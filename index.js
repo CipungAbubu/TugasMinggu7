@@ -12,8 +12,8 @@ switch (command) {
     case "make-file":
         app.makeFile();
         break;
-        
-    case "ext=sorter":
+
+    case "ext-sorter":
         app.extSorter();
         break;
 
