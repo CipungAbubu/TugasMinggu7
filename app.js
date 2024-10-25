@@ -44,25 +44,54 @@ app.makeFile = () => {
 };
 
 // script membuat extSorter
-app.extSorter = (res) => {
+app.extSorter = () => {
+    const res = fs.readdirSync("unorganize_folder");
+    
     for (let index = 0; index < res.length; index++) {
         const element = res[index];
         const ext = element.split(".")[element.split(".").length - 1];
 
+        // Memindahkan file teks ke folder 'text'
         if (["txt", "pdf", "md"].includes(ext)) {
-            fs.mkdir(__dirname + '/text', () => {
+            fs.mkdir(__dirname + '/text', { recursive: true }, (err) => {
+                if (err) {
+                    console.error("Error creating text folder:", err);
+                    return;
+                }
                 console.log("success created new folder");
                 fs.rename(
                     __dirname + '/unorganize_folder/' + element,
                     __dirname + '/text/' + element,
                     (err) => {
-                        if (err) throw err; 
-                        console.log(`File ${element} berhasil dipindahkan ke folder 'text'`);
+                        if (err) {
+                            console.error("Error moving file to text folder:", err);
+                        }
                     }
                 );
             });
         }
 
+        // Memindahkan file PNG ke folder 'gambar'
+        if (ext === "png", "jpg") {
+            fs.mkdir(__dirname + '/gambar', { recursive: true }, (err) => {
+                if (err) {
+                    console.error("Error creating gambar folder:", err);
+                    return;
+                }
+                console.log("success created gambar folder");
+                fs.rename(
+                    __dirname + '/unorganize_folder/' + element,
+                    __dirname + '/gambar/' + element,
+                    (err) => {
+                        if (err) {
+                            console.error("Error moving file to gambar folder:", err);
+                        }
+                    }
+                );
+            });
+        }
     }
+    return;
 };
+
 module.exports = app
