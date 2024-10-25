@@ -146,19 +146,21 @@ app.readFolder = () => {
 
 // script membuat read file
 app.readFile = () => {
-    rl.question("Masukan Nama Folder: ", (folderName) => {
-        rl.question("Masukan Nama File: ", (fileName) => {
-            const filePath = `${__dirname}/${folderName}/${fileName}`;
+    rl.question("Masukkan Nama Folder: ", (folder) => {
+        rl.question("Masukkan Nama File: ", (file) => {
+            rl.question("Masukkan extension (misal: txt, md, etc): ", (ext) => {
+                // Menggabungkan path dengan benar
+                const filePath = `${__dirname}/${folder}/${file}.${ext}`;
 
-            // Membaca isi file
-            fs.readFile(filePath, 'utf8', (err, data) => {
-                if (err) {
-                    console.log(`Gagal membaca file ${fileName}:`, err.message);
+                // Membaca isi file
+                fs.readFile(filePath, 'utf8', (err, data) => {
+                    if (err) {
+                        console.error("Gagal membaca file:", err);
+                        return;
+                    }
+                    console.log(`isi dari file ${file}.${ext}:\n\n${data}`);
                     rl.close();
-                    return;
-                }
-                console.log(`isi dari file ${fileName}:\n\n${data}\n`);
-                rl.close();
+                });
             });
         });
     });
