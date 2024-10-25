@@ -21,17 +21,24 @@ const app = {}
 
 // Script membuat file
 app.makeFile = () => {
-    rl.question("Masukan Nama File (termasuk ekstensi): ", (fileName) => {
-        rl.question("Masukan Konten File: ", (content) => {
-            fs.writeFile(__dirname + `/${fileName}`, content, (err) => {
-                if (err) throw err;
-                console.log(`File ${fileName} berhasil dibuat!`);
-                rl.close();
+    rl.question("Masukan Nama Folder: ", (folder) => {
+        rl.question("Masukan Nama File: ", (file) => {
+            rl.question("Masukan extension: ", (ext) => {
+                const filePath = '${__dirname}/${folder}/$file}.${ext}';
+
+                fs.mkdir(`${__dirname}/${folder}`, { recursive: true }, (err) => {
+                    if (err) throw err;
+               
+                    fs.writeFile(filePath, '', (err) => {
+                        if (err) throw err;
+                        console.log(`File berhasil dibuat: ${filePath}`);
+                        rl.close();
+                    });
+                });
             });
         });
     });
 };
-
 
 
 module.exports = app
