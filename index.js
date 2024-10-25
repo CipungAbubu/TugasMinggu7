@@ -21,6 +21,9 @@ switch (command) {
         app.readFolder();
         break
 
+    case "read-file":
+        app.readFile();
+        break
 
     default:
         throw Error("Invalid command")
