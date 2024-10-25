@@ -43,6 +43,28 @@ app.makeFile = () => {
     });
 };
 
+// script membuat extSorter
+app.extSorter = () => {
+    const res = fs.readdirSync("unorganize_folder");
+    
+    for (let index = 0; index < res.length; index++) {
+        const element = res[index];
+        const ext = element.split(".")[element.split(".").length - 1];
+        if (["txt", "pdf", "md"].includes(ext)) {
+            fs.mkdir(__dirname + '/text', () => {
+                console.log("success created new folder");
+                fs.rename(
+                    __dirname + '/unorganize_folder/' + element,
+                    __dirname + '/text/' + element,
+                    (err) => {
+                        rl.close();
+                    }
+                );
+            });
+        }
 
+    }
+    return;
+};
 
 module.exports = app
