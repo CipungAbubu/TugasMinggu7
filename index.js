@@ -7,6 +7,10 @@ const command = args[0];
 switch (command) {
     case "make-folder":
         app.makeFolder()
+        break; 
+        
+    case "make-file":
+        app.makeFile();
         break;
 
     default:
